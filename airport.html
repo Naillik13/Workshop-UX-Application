@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html"; charset=utf-8 />
+        <title>AirShop</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/airport.css">
+    </head>
+    <body>
+        <header >
+            <nav>
+                    <a href="index.html"><i class="fas fa-chevron-left"></i></a><h2>Roissy Charles de Gaulle</h2><i id="search-button" class="fas fa-search"></i>
+            </nav>
+        </header>
+        
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d578.6360475775153!2d2.541782706675902!3d49.01413143357352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e63e038e4ccf5b%3A0x42be0982f5ba62c!2sParis-Charles+De+Gaulle!5e0!3m2!1sfr!2sfr!4v1536913316620" width="100%" height="93%" frameborder="0" style="border:0" allowfullscreen></iframe>
+        <div id="blackscreen"></div>
+        <div id="sidebar" class="sidebar">
+            <div id="searchbar" class="top-bar">
+                <h2><i class="fas fa-search"></i></h2><select id="input-search"><Option value="Tous">-</Option><Option value="Maroquinerie">Maroquinerie</Option><Option value="Café">Café</Option><Option value="Pâtisserie">Pâtisserie</Option></select>
+            </div>
+            <div id="shop-list">
+                
+            </div>
+        </div>
+        <div id="sidebar-details" class="sidebar">
+            <div id="shop-name" class="top-bar">
+                <h2><i id="details-return" class="fas fa-chevron-left"></i></h2><h2 id="name"></h2>
+            </div>
+            <div id="informations">
+                <p id="description"></p>
+                <div id="modif"><i class="fas fa-edit"></i><span id="modification"></span></div>
+                <textarea rows="6" id="textarea-modif" ></textarea><button id="modif-valid">Enregistrer</button>
+                <div id="itineraire"><i class="far fa-map"></i><span>itinéraire</span></div>
+
+                <div><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                
+            </div>
+        </div>
+    </body>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script>
+        $('#search-button').click(function (){
+            $("#sidebar").css("opacity", "1").css("right", "0");
+            $("#blackscreen").fadeIn(1000);
+        });
+        $('#blackscreen').click(function (){
+            $("#sidebar").css("opacity", "0").css("right", "-70%");
+            $("#blackscreen").fadeOut(1000);
+            $("#sidebar-details").fadeOut(0);
+            
+        });
+        var shop = [];
+		shop.push({Id: "1",Nom: "Longchamps", Domaine: "Maroquinerie", Description: "On peut y trouver une multitude d'articles, des sacs à main en cuir et en toile, des articles de voyage, des accessoires de mode et depuis peu, du prêt-à-porter" , Note: "4", Url:"https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d29608.50171403035!2d2.509061161701999!3d49.00970463975494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x47e63e038e4ccf5b%3A0x42be0982f5ba62c!2sParis-Charles+De+Gaulle%2C+Roissy-en-France!3m2!1d49.0096906!2d2.5479244999999997!4m5!1s0x47e6161a6e55299b%3A0xaedef99a749b54b1!2sLongchamp%2C+Roissy-en-France!3m2!1d49.0033263!2d2.5755489!5e0!3m2!1sfr!2sfr!4v1537190972696" });
+        shop.push({Id: "2", Nom: "Starbucks", Domaine: "Café", Description: "Les établissements Starbucks vendent exclusivement leur propre marque de café (moulu ou en grains), du thé, des boissons, des pâtisseries, des ustensiles et des machines à café" , Note: "3", Url:"https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d167738.6431297796!2d2.2650521761257636!3d48.936036034457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x47e63e038e4ccf5b%3A0x42be0982f5ba62c!2sParis-Charles+De+Gaulle%2C+Roissy-en-France!3m2!1d49.0096906!2d2.5479244999999997!4m5!1s0x47e615f714558387%3A0x4e82deefc716819c!2sStarbucks+Coffee%2C+Paris-Charles+De+Gaulle+(CDG)%2C+Roissy-en-France!3m2!1d49.009634299999995!2d2.5480962!5e0!3m2!1sfr!2sfr!4v1537190832542" });
+        shop.push({Id: "3", Nom: "Ladurée", Domaine: "Pâtisserie", Description: "La maison Ladurée vous accueille pour déguster des pâtisseries dans un cadre chaleureux, raffiné et élégant à tout moment de la journée." , Note: "5", Url:"https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d29608.50171403035!2d2.509061161701999!3d49.00970463975494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x47e63e038e4ccf5b%3A0x42be0982f5ba62c!2sParis-Charles+De+Gaulle%2C+Roissy-en-France!3m2!1d49.0096906!2d2.5479244999999997!4m5!1s0x47e616226bbdcc2f%3A0xa242d9e10cbfff11!2sLadur%C3%A9e+A%C3%A9roport+Roissy+CDG+Terminal+2E+-+Satellite+3%2C+Roissy-en-France!3m2!1d49.0098286!2d2.5456955999999997!5e0!3m2!1sfr!2sfr!4v1537190931566" });
+
+        for (i = 0; i < shop.length; ++i) {
+            var name = shop[i].Nom;
+            var domaine = shop[i].Domaine;
+            var contenu = $("#shop-list").html();
+            console.log(name + domaine + contenu);
+            $("#shop-list").html(contenu + '<div data-cible="'+ shop[i].Id +'" class="shop"><div class="shop-left"><h4>'+ name +'</h4><span class="domaine">'+ domaine +'</span></div><div class="shop-right"><i class="fas fa-info-circle"></a></div></div><div class="separator"></div>');
+            
+        }
+        showDetails();
+        function showDetails(){
+            $('.shop').click(function (){
+            var id = $(this).attr("data-cible") - 1;
+            $("#name").html(shop[id].Nom);
+            $("#description").html(shop[id].Description);
+            $("#textarea-modif").html(shop[id].Description);
+            $("#modification").html("<span data-cible='"+shop[id].Id+"'>Modifier la description</span>");
+            $("#itineraire").attr("data-id", id)
+            $("#sidebar-details").fadeIn(0);
+            
+        });
+        }
+        $("#details-return").click(function () {
+            $("#sidebar-details").fadeOut(0);
+        });
+        $("#modif").click(function() {
+            var cible = $("#modification").children().last().attr("data-cible");
+            $("#textarea-modif").fadeIn(1000).attr("data-cible", cible);
+            $("#modif-valid").fadeIn(1000).attr("data-cible", cible);
+            console.log(cible);
+        });
+        $("#modif-valid").click(function() {
+            $("#textarea-modif").fadeOut(1000);
+            $("#modif-valid").fadeOut(1000);
+            var id = $(this).attr("data-cible");
+            shop[id].Description = $("#textarea-modif").val();
+            $("#description").html(shop[id].Description);
+        });
+        $("#itineraire").click(function(){
+            var id = $(this).attr("data-id");
+            $("iframe").attr("src", shop[id].Url);
+            $("#sidebar").css("opacity", "0").css("right", "-70%");
+            $("#blackscreen").fadeOut(1000);
+            $("#sidebar-details").fadeOut(0);
+        });
+        $("#input-search").click(function() {
+            var filtre = $("#input-search").val();
+            if (filtre == "Tous"){
+                $("#shop-list").html("");
+                for (i = 0; i < shop.length; ++i) {
+                    var name = shop[i].Nom;
+                    var domaine = shop[i].Domaine;
+                    var contenu = $("#shop-list").html();
+                    console.log(name + domaine + contenu);
+                    $("#shop-list").html(contenu + '<div data-cible="'+ shop[i].Id +'" class="shop"><div class="shop-left"><h4>'+ name +'</h4><span class="domaine">'+ domaine +'</span></div><div class="shop-right"><i class="fas fa-info-circle"></a></div></div><div class="separator"></div>');
+                    
+                }
+            } else {
+                for (i = 0; i < shop.length; ++i) {
+                    var name = shop[i].Nom;
+                    var domaine = shop[i].Domaine;
+                    if(filtre == domaine){
+                        $("#shop-list").html('<div data-cible="'+ shop[i].Id +'" class="shop"><div class="shop-left"><h4>'+ name +'</h4><span class="domaine">'+ domaine +'</span></div><div class="shop-right"><i class="fas fa-info-circle"></a></div></div><div class="separator"></div>');
+
+                    } 
+                }        
+            }
+            showDetails();
+            
+        });
+    </script>
+</html>
